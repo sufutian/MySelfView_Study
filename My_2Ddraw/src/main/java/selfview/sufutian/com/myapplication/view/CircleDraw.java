@@ -2,12 +2,12 @@ package selfview.sufutian.com.myapplication.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
@@ -47,7 +47,7 @@ public class CircleDraw extends View {
         canvas.drawCircle(getWidth() / 4, getHeight() / 2, getHeight()/2-10, mPaint);
 
         canvas.drawArc(getWidth()/2+getWidth()/8,0,getWidth()/2+getWidth()/8+getHeight(),getHeight(),
-                90,270,false,mPaint);
+                90,270,true,mPaint);
 
         RectF rectF=new RectF(0,0,getHeight(),getHeight());
         canvas.drawOval(rectF,mPaint);
@@ -56,14 +56,15 @@ public class CircleDraw extends View {
         mPaint.setTextSize(40);
         canvas.drawText("hello",getHeight(),getHeight()/2,mPaint);
 
-//        canvas.drawVertices();
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image);
+        canvas.drawBitmap(bitmap,
+                new Rect(getWidth()/2,0,bitmap.getWidth(), bitmap.getHeight()),
+                new Rect(getWidth()/2,0,getWidth()/2+100,getHeight()),mPaint
+                );
 
-        Drawable drawable=getResources().getDrawable(R.drawable.image);
-        BitmapDrawable bitmapDrawable= (BitmapDrawable) drawable;
-        Bitmap bitmap = bitmapDrawable.getBitmap();
 
-
-        canvas.drawBitmap(bitmap,0,0,mPaint);
+        //通过绘制多边形绘制三角形
+        canvas.drawVertices(Canvas.VertexMode.TRIANGLES, 6, new float[]{20,35,45,100,55,80}, 0, null, 0, null, 0, null, 0, 0, mPaint);
 
     }
 }
