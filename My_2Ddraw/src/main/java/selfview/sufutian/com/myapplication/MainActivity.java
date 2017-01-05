@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this,"第"+position+"个item",Toast.LENGTH_SHORT).show();
                 }
             });
+            
             return convertView;
         }
 
