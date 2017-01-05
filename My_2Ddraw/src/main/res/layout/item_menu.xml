@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <Button
+    <TextView
         android:id="@+id/item_text"
         android:layout_width="match_parent"
         android:layout_height="100px"
@@ -13,11 +13,6 @@
         android:text="001"
         android:textSize="50px"
         android:textColor="#522c2c"
-        />
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#96c718"
         />
 
 </LinearLayout>

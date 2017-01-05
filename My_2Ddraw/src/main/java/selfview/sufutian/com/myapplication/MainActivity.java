@@ -5,15 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView menuList;
+    private ListView menuListView;
 
     ArrayList<String> data = new ArrayList<>();
 
@@ -21,10 +21,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        menuList = (ListView) findViewById(R.id.listview);
+        menuListView = (ListView) findViewById(R.id.listview);
         data.add("2D绘制001");
+
+        menuListView.setItemsCanFocus(true);
         menuAdappter menuAdappter = new menuAdappter();
-        menuList.setAdapter(menuAdappter);
+        menuListView.setAdapter(menuAdappter);
     }
 
     private class menuAdappter extends BaseAdapter {
@@ -51,25 +53,54 @@ public class MainActivity extends AppCompatActivity {
             if (convertView == null) {
                 convertView = View.inflate(MainActivity.this, R.layout.item_menu, null);
                 holder = new ViewHolder();
-                holder.button = (Button) convertView.findViewById(R.id.item_text);
+                holder.textView = (TextView) convertView.findViewById(R.id.item_text);
                 convertView.setTag(holder);
             } else {
                 ViewHolder holder = (ViewHolder) convertView.getTag();
             }
-            holder.button.setText(data.get(position));
-            holder.button.setOnClickListener(new View.OnClickListener() {
+            convertView.setFocusable(true);
+            convertView.setClickable(true);
+            holder.textView.setText(data.get(position));
+            convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MainActivity.this,"第"+position+"个item",Toast.LENGTH_SHORT).show();
+                    itemClick(position);
                 }
             });
+            convertView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(hasFocus){
+                        holder.textView.setBackgroundResource(R.drawable.item_focus_bg);
+                    }else{
+                        holder.textView.setBackgroundResource(R.color.trans);
+                    }
+                }
+            });
+//            itemClick(holder.textView, position);
 
             return convertView;
         }
 
 
         private class ViewHolder {
-            Button button;
+            TextView textView;
         }
     }
+
+    public void itemClick(int position){
+        Toast.makeText(MainActivity.this,"第"+position+"个item",Toast.LENGTH_SHORT).show();
+        switch (position){
+            case 0:
+                TaiJiActivity.toActivity(MainActivity.this);
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+        }
+    }
+
 }
