@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         menuListView = (ListView) findViewById(R.id.listview);
         data.add("2D绘制001");
-
+        data.add("2D绘制002");
         menuListView.setItemsCanFocus(true);
         menuAdappter menuAdappter = new menuAdappter();
         menuListView.setAdapter(menuAdappter);
@@ -92,10 +92,10 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this,"第"+position+"个item",Toast.LENGTH_SHORT).show();
         switch (position){
             case 0:
-                TaiJiActivity.toActivity(MainActivity.this);
+                My2dDrawActivity.toActivity(MainActivity.this);
                 break;
             case 1:
-
+                AnimationActivity.toActivity(MainActivity.this);
                 break;
             case 2:
 

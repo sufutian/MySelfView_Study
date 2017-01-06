@@ -8,20 +8,20 @@ import android.view.View;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import selfview.sufutian.com.myapplication.view.TaiJiView;
+import selfview.sufutian.com.myapplication.draw2d.TaiJiView;
 
 /**
  * Created by sufutian on 2017/1/5.
  */
 
-public class TaiJiActivity extends Activity {
+public class My2dDrawActivity extends Activity {
 
 
     @InjectView(R.id.taiji_view)
     TaiJiView taijiView;
 
     public static void toActivity(Activity activity) {
-        Intent intent = new Intent(activity, TaiJiActivity.class);
+        Intent intent = new Intent(activity, My2dDrawActivity.class);
         activity.startActivity(intent);
 
     }

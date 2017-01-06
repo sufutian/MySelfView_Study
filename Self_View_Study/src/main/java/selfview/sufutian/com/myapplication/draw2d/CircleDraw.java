@@ -1,4 +1,4 @@
-package selfview.sufutian.com.myapplication.view;
+package selfview.sufutian.com.myapplication.draw2d;
 
 import android.content.Context;
 import android.graphics.Bitmap;

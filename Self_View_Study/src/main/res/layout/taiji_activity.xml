@@ -6,23 +6,23 @@
     android:background="#6e6262"
     >
 
-    <selfview.sufutian.com.myapplication.view.TaiJiView
+    <selfview.sufutian.com.myapplication.draw2d.TaiJiView
         android:id="@+id/taiji_view"
         android:layout_width="250px"
         android:layout_height="250px"
         android:background="@android:color/transparent"
         android:layout_gravity="center_horizontal"
         />
-    <selfview.sufutian.com.myapplication.view.PointDraw
+    <selfview.sufutian.com.myapplication.draw2d.PointDraw
         android:layout_width="match_parent"
         android:layout_height="500px" />
-    <selfview.sufutian.com.myapplication.view.LineDraw
+    <selfview.sufutian.com.myapplication.draw2d.LineDraw
         android:layout_width="match_parent"
         android:layout_height="50px" />
-    <selfview.sufutian.com.myapplication.view.RectDraw
+    <selfview.sufutian.com.myapplication.draw2d.RectDraw
         android:layout_width="match_parent"
         android:layout_height="100px" />
-    <selfview.sufutian.com.myapplication.view.CircleDraw
+    <selfview.sufutian.com.myapplication.draw2d.CircleDraw
         android:layout_marginTop="10px"
         android:layout_width="match_parent"
         android:layout_height="100px" />
