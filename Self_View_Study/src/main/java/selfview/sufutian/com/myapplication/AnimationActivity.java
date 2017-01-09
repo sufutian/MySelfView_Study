@@ -1,5 +1,7 @@
 package selfview.sufutian.com.myapplication;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -45,6 +47,8 @@ public class AnimationActivity extends Activity {
     Button viewAnimiBtn;
     @InjectView(R.id.zhen_animi)
     ImageView zhenAnimi;
+    @InjectView(R.id.object_animi)
+    ImageView objectAnimi;
 
     private AnimationDrawable zhenDrawable;
 
@@ -99,28 +103,59 @@ public class AnimationActivity extends Activity {
     }
 
 
-    public void ObjectAnimation(View view) {
+    /**
+     * translationX,translationY           View相对于原始位置的偏移量
+     * rotation,rotationX,rotationY       旋转，rotation用于2D旋转角度，3D中用到后两个
+     * scaleX,scaleY                      缩放比
+     * x,y                                View的最终坐标，是View的left，top位置加上translationX，translationY
+     * alpha                              透明度
+     */
+    public void ObjectAnimi(View view) {
+
+
+        AnimatorSet animationSet = new AnimatorSet();
+
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
+        alpha.setDuration(2000);//设置动画时间
+//        alpha.setInterpolator(new DecelerateInterpolator());//设置动画插入器，减速
+        alpha.setRepeatCount(-1);//设置动画重复次数，这里-1代表无限
+        alpha.setRepeatMode(ObjectAnimator.REVERSE);//设置动画循环模式。
+//        alpha.start();//启动动画。
+
+        ObjectAnimator translation=ObjectAnimator.ofFloat(view,"translationX",0.0f,-1080+400.0f);
+        translation.setDuration(2000);
+        translation.setRepeatCount(-1);
+        translation.setRepeatMode(ObjectAnimator.REVERSE);
+
+        animationSet.play(translation).with(alpha);
+        animationSet.start();
+
+
+
+
 
 
     }
 
     boolean isStart;
-    @OnClick({R.id.view_animi_btn, R.id.view_animi,R.id.zhen_animi})
+
+    @OnClick({R.id.view_animi_btn, R.id.view_animi, R.id.zhen_animi})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.view_animi_btn:
                 viewAnimation(viewAnimi);
                 zhenAnimation();
+                ObjectAnimi(objectAnimi);
                 break;
             case R.id.view_animi:
                 break;
             case R.id.zhen_animi:
-                if(isStart){
+                if (isStart) {
                     zhenDrawable.start();
-                }else{
+                } else {
                     zhenDrawable.stop();
                 }
-                isStart=!isStart;
+                isStart = !isStart;
                 break;
         }
     }

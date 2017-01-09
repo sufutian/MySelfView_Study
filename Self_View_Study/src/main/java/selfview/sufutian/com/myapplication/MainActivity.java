@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         menuListView = (ListView) findViewById(R.id.listview);
-        data.add("2D绘制001");
-        data.add("2D绘制002");
+        data.add("2D绘制");
+        data.add("动画相关");
         menuListView.setItemsCanFocus(true);
         menuAdappter menuAdappter = new menuAdappter();
         menuListView.setAdapter(menuAdappter);
