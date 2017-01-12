@@ -17,6 +17,7 @@
         </activity>
         <activity android:name=".My2dDrawActivity"/>
         <activity android:name=".AnimationActivity"/>
+        <activity android:name=".WaveActivity"/>
     </application>
 
 </manifest>
