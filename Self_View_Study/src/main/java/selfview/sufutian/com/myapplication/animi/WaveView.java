@@ -16,7 +16,7 @@ import selfview.sufutian.com.myapplication.util.UiUtils;
  */
 
 public class WaveView extends View {
-    String TAG="sufutian";
+    String TAG = "sufutian";
     // 波纹颜色
     private static final int WAVE_PAINT_COLOR = 0x880000aa;
     // y = Asin(wx+b)+h
@@ -29,9 +29,18 @@ public class WaveView extends View {
     private float mCycleFactorW;
 
     private int mWidth, mHeight;
-    private float[] mYPositions;
-    private float[] mResetOneYPositions;
-    private float[] mResetTwoYPositions;
+    /**
+     * 原始的点数组
+     */
+    private float[] mYArray;
+    /**
+     * 第一条点的数组
+     */
+    private float[] mOnePointArray;
+    /**
+     * 第二条点的数组
+     */
+    private float[] mTwoPointArray;
     private int mXOffsetSpeedOne;
     private int mXOffsetSpeedTwo;
     private int mXOneOffset;
@@ -52,65 +61,57 @@ public class WaveView extends View {
         // 去除画笔锯齿
         mPaint.setAntiAlias(true);
         // 设置风格为实线
-        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         // 设置画笔颜色
         mPaint.setColor(WAVE_PAINT_COLOR);
         mDrawFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.e(TAG, "widthMeasureSpec:---"+widthMeasureSpec);
-        Log.e(TAG, "heightMeasureSpec:---"+widthMeasureSpec);
-        int width = getWidth();
-        int height = getHeight();
-        Log.e(TAG, "width:---"+width);
-        Log.e(TAG, "height:---"+height);
-
-    }
-
-    @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        Log.e(TAG, "w:---"+w);
-        Log.e(TAG, "h:---"+h);
+        Log.e(TAG, "w:---" + w);
+        Log.e(TAG, "h:---" + h);
 
         // 记录下view的宽高
         mWidth = w;
         mHeight = h;
         // 用于保存原始波纹的y值
-        mYPositions = new float[mWidth];
+        mYArray = new float[mWidth];
         // 用于保存波纹一的y值
-        mResetOneYPositions = new float[mWidth];
+        mOnePointArray = new float[mWidth];
         // 用于保存波纹二的y值
-        mResetTwoYPositions = new float[mWidth];
+        mTwoPointArray = new float[mWidth];
 
         // 将周期定为view总宽度
         mCycleFactorW = (float) (2 * Math.PI / mWidth);
+        Log.e(TAG, "mCycleFactorW:---" + mCycleFactorW);
 
         // 根据view总宽度得出所有对应的y值
         for (int i = 0; i < mWidth; i++) {
-            mYPositions[i] = (float) (STRETCH_FACTOR_A * Math.sin(mCycleFactorW * i) + OFFSET_Y);
+            mYArray[i] = (float) (STRETCH_FACTOR_A * Math.sin(mCycleFactorW * i) + OFFSET_Y);
+            Log.e(TAG, "mYArray[i]:---" + mYArray[i]);
         }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        // 从canvas层面去除绘制时锯齿
+        /**从canvas层面去除绘制时锯齿
+         * 绘制时去锯齿
+         */
         canvas.setDrawFilter(mDrawFilter);
         resetPositonY();
         for (int i = 0; i < mWidth; i++) {
 
             // 减400只是为了控制波纹绘制的y的在屏幕的位置，大家可以改成一个变量，然后动态改变这个变量，从而形成波纹上升下降效果
             // 绘制第一条水波纹
-            canvas.drawLine(i, mHeight - mResetOneYPositions[i] - 400, i,
+            canvas.drawLine(i, mHeight - mOnePointArray[i] - 300, i,
                     mHeight,
                     mPaint);
 
             // 绘制第二条水波纹
-            canvas.drawLine(i, mHeight - mResetTwoYPositions[i] - 400, i,
+            canvas.drawLine(i, mHeight - mTwoPointArray[i] - 300, i,
                     mHeight,
                     mPaint);
         }
@@ -128,27 +129,24 @@ public class WaveView extends View {
         }
 
         // 引发view重绘，一般可以考虑延迟20-30ms重绘，空出时间片
-//        postInvalidate();
-        postInvalidateDelayed(20);
+        postInvalidate();
+
 
     }
 
     private void resetPositonY() {
         // mXOneOffset代表当前第一条水波纹要移动的距离
-        int yOneInterval = mYPositions.length - mXOneOffset;
+        int yOneInterval = mYArray.length - mXOneOffset;
         // 使用System.arraycopy方式重新填充第一条波纹的数据
-        System.arraycopy(mYPositions, mXOneOffset, mResetOneYPositions, 0, yOneInterval);
-        System.arraycopy(mYPositions, 0, mResetOneYPositions, yOneInterval, mXOneOffset);
+        /**
+         * src:源数组；	    srcPos:源数组要复制的起始位置；
+         * dest:目的数组；	destPos:目的数组放置的起始位置；	length:复制的长度。
+         */
+        System.arraycopy(mYArray, mXOneOffset, mOnePointArray, 0, yOneInterval);
+        System.arraycopy(mYArray, 0, mOnePointArray, yOneInterval, mXOneOffset);
 
-        int yTwoInterval = mYPositions.length - mXTwoOffset;
-        System.arraycopy(mYPositions, mXTwoOffset, mResetTwoYPositions, 0,
-                yTwoInterval);
-        System.arraycopy(mYPositions, 0, mResetTwoYPositions, yTwoInterval, mXTwoOffset);
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        Log.e(TAG, "onLayout:---"+left+"---"+top+"---"+right+"---"+bottom);
+        int yTwoInterval = mYArray.length - mXTwoOffset;
+        System.arraycopy(mYArray, mXTwoOffset, mTwoPointArray, 0, yTwoInterval);
+        System.arraycopy(mYArray, 0, mTwoPointArray, yTwoInterval, mXTwoOffset);
     }
 }

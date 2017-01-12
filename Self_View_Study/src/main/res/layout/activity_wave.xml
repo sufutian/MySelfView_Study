@@ -6,6 +6,10 @@
 
     <selfview.sufutian.com.myapplication.animi.WaveView
         android:layout_width="match_parent"
-        android:layout_height="500px" />
+        android:layout_height="600px" />
+
+    <selfview.sufutian.com.myapplication.animi.WaveTest
+        android:layout_width="match_parent"
+        android:layout_height="400px" />
 
 </LinearLayout>
