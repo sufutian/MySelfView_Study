@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         data.add("2D绘制");
         data.add("动画相关");
         data.add("水波纹");
+        data.add("颜色过滤器");
         menuListView.setItemsCanFocus(true);
         menuAdappter menuAdappter = new menuAdappter();
         menuListView.setAdapter(menuAdappter);
@@ -100,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 2:
                 WaveActivity.toActivity(MainActivity.this);
+                break;
+            case 3:
+                ColorFilterActivity.toActivity(MainActivity.this);
                 break;
         }
     }
